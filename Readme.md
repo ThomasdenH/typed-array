@@ -58,4 +58,4 @@ Additionally, conversions are easy:
 [`has_type`]: enum.TypedArray.html#method.has_type
 [`dyn_into`]: enum.TypedArray.html#method.dyn_into
 [crates-io]: https://crates.io/crates/typed-array
-[api-docs]: https://docs.rs/typed-array/0.1.0/typed_array/
+[api-docs]: https://docs.rs/typed-array/0.2.0/typed_array/
