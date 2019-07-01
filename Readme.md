@@ -2,6 +2,7 @@
 
 [![](https://img.shields.io/crates/v/typed-array.svg)][crates-io]
 [![](https://docs.rs/typed-array/badge.svg)][api-docs]
+[![Build Status](https://travis-ci.org/ThomasdenH/typed-array.svg?branch=master)](https://travis-ci.org/ThomasdenH/typed-array)
 
 A wrapper for all typed array types from `js_sys` that implements common
 functionality and useful conversions.
