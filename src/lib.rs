@@ -1,8 +1,8 @@
 //! A wrapper for all typed array types from `js_sys` that implements common
 //! functionality and useful conversions.
 //!
-//! All typed arrays in Javascript have properties like `buffer`, `subarray`
-//! and `byte_length` in common. However, they can be tricky to work with if
+//! All typed arrays in Javascript have properties like [`buffer`], [`subarray`]
+//! and [`byte_length`] in common. However, they can be tricky to work with if
 //! the variant is not known. This wrapper type makes it easy to use all typed
 //! arrays in the way you'd expect.
 //!  
@@ -24,13 +24,13 @@
 //! # Features
 //! The following common functionality between typed arrays is implemented:
 //!
-//! - `buffer`
-//! - `subarray`
-//! - `slice`
-//! - `length`
-//! - `byte_length`
-//! - `byte_offset`
-//! - `set`
+//! - [`buffer`]
+//! - [`subarray`]
+//! - [`slice`]
+//! - [`length`]
+//! - [`byte_length`]
+//! - [`byte_offset`]
+//! - [`set`]
 //!
 //! Additionally, conversions are easy:
 //!
@@ -40,9 +40,18 @@
 //! - `Deref<Target = Object> for TypedArray`
 //! - `AsRef<JsValue> for TypedArray`
 //! - `AsRef<Object> for TypedArray`
-//! - `has_type`, analogous to `JsCast::has_type`
-//! - `dyn_into`, analogous to `JsCast::dyn_into`
+//! - [`has_type`], analogous to `JsCast::has_type`
+//! - [`dyn_into`], analogous to `JsCast::dyn_into`
 //!
+//! [`buffer`]: enum.TypedArray.html#method.buffer
+//! [`subarray`]: enum.TypedArray.html#method.subarray
+//! [`slice`]: enum.TypedArray.html#method.slice
+//! [`length`]: enum.TypedArray.html#method.length
+//! [`byte_length`]: enum.TypedArray.html#method.byte_length
+//! [`byte_offset`]: enum.TypedArray.html#method.byte_offset
+//! [`set`]: enum.TypedArray.html#method.set
+//! [`has_type`]: enum.TypedArray.html#method.has_type
+//! [`dyn_into`]: enum.TypedArray.html#method.dyn_into
 
 use core::convert::TryFrom;
 use err_derive::*;
@@ -80,6 +89,9 @@ macro_rules! impl_from {
     };
 }
 
+/// An enum of all of the typed arrays that is available in Javascipt. Common
+/// functionality is implemented on this type to make handling all variants
+/// easier.
 #[derive(Clone, Debug)]
 pub enum TypedArray {
     Int8Array(Int8Array),
