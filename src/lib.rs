@@ -37,7 +37,6 @@
 //! - `From<X> for TypedArray`
 //! - `TryFrom<TypedArray> for X`
 //! - `TryFrom<JsValue> for TypedArray`
-//! - `Deref<Target = Object> for TypedArray`
 //! - `AsRef<JsValue> for TypedArray`
 //! - `AsRef<Object> for TypedArray`
 //! - [`has_type`], analogous to `JsCast::has_type`
@@ -53,6 +52,8 @@
 //! [`has_type`]: enum.TypedArray.html#method.has_type
 //! [`dyn_into`]: enum.TypedArray.html#method.dyn_into
 
+#![doc(html_root_url = "https://docs.rs/typed-array/0.2.0")]
+
 use core::convert::TryFrom;
 use err_derive::*;
 use js_sys::{
@@ -65,7 +66,9 @@ use wasm_bindgen::{JsCast, JsValue};
 /// array instance.
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Default, Error)]
 #[error(display = "could not convert TypedArray to typed array instance")]
-pub struct TryFromTypedArrayError;
+pub struct TryFromTypedArrayError {
+    _priv: (),
+}
 
 macro_rules! impl_from {
     ($arr:ident) => {
@@ -82,7 +85,7 @@ macro_rules! impl_from {
                 if let TypedArray::$arr(inner) = i {
                     Ok(inner)
                 } else {
-                    Err(TryFromTypedArrayError)
+                    Err(TryFromTypedArrayError::default())
                 }
             }
         }
@@ -207,19 +210,14 @@ impl TypedArray {
 /// Returned when attempting to convert a `JsValue` to a TypedArray.
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Default, Error)]
 #[error(display = "could not convert JsValue to TypedArray")]
-pub struct TryFromJsValueError;
+pub struct TryFromJsValueError {
+    _priv: (),
+}
 
 impl TryFrom<JsValue> for TypedArray {
     type Error = TryFromJsValueError;
     fn try_from(i: JsValue) -> Result<Self, Self::Error> {
-        TypedArray::dyn_into(i).map_err(|_| TryFromJsValueError)
-    }
-}
-
-impl core::ops::Deref for TypedArray {
-    type Target = js_sys::Object;
-    fn deref(&self) -> &Self::Target {
-        match_every!(self, i, &*i)
+        TypedArray::dyn_into(i).map_err(|_| TryFromJsValueError::default())
     }
 }
 
@@ -232,34 +230,5 @@ impl AsRef<JsValue> for TypedArray {
 impl AsRef<js_sys::Object> for TypedArray {
     fn as_ref(&self) -> &js_sys::Object {
         match_every!(self, i, i.as_ref())
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_try_from_js_value_error_send() {
-        fn assert_send<T: Send>() {}
-        assert_send::<TryFromJsValueError>();
-    }
-
-    #[test]
-    fn test_try_from_js_value_error_sync() {
-        fn assert_sync<T: Sync>() {}
-        assert_sync::<TryFromJsValueError>();
-    }
-
-    #[test]
-    fn test_try_from_typed_array_error_send() {
-        fn assert_send<T: Send>() {}
-        assert_send::<TryFromTypedArrayError>();
-    }
-
-    #[test]
-    fn test_try_from_typed_array_error_sync() {
-        fn assert_sync<T: Sync>() {}
-        assert_sync::<TryFromTypedArrayError>();
     }
 }
