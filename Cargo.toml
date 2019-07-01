@@ -6,7 +6,7 @@ edition = "2018"
 description = "A wrapper for all typed array types from `js_sys` that implements common functionality and useful conversions."
 license = "MIT"
 repository = "https://github.com/ThomasdenH/typed-array"
-keywords = ["javascript", "wasm", "typed array"]
+keywords = ["javascript", "wasm", "typed-array"]
 categories = ["WebAssembly"]
 
 [dependencies]
