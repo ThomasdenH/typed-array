@@ -7,7 +7,7 @@ description = "A wrapper for all typed array types from `js_sys` that implements
 license = "MIT"
 repository = "https://github.com/ThomasdenH/typed-array"
 keywords = ["javascript", "wasm", "typed-array"]
-categories = ["WebAssembly"]
+categories = ["wasm"]
 
 [dependencies]
 wasm-bindgen = "0.2"
